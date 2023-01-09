@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.
     }
 
     // Update is called once per frame
@@ -27,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
         if(direction.magnitude >= 0.1f)(//if we are moving
             float turnSmoothTime = 0.1f;
 
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf
         )    
     }
 }
