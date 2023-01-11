@@ -4,54 +4,74 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    
-    // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    // Update is called once per frame
     void Update()
     {
         characterMovement();
         cameraControl();
+        manageGravity();
     }
     
-    public Transform cam;
     public float speed = 6f;
-    float turnSmoothVelocity;
     public CharacterController controller;
 
     public void characterMovement(){
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-
-        if(direction.magnitude >= 0.1f){//if we are moving
-            float turnSmoothTime = 0.1f;
-
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
-        }
+        Vector3 move = transform.right * horizontal + transform.forward * vertical;
+        controller.Move(move * speed * Time.deltaTime);
     }
 
 
-    [SerializeField] private float sens = 1;
+    [SerializeField] private float sens = 2000;
     [SerializeField] private bool invertVertical;
+    public Transform cam;
+    private float xRotation;
 
     public void cameraControl()
     {
-        var deltaMouse = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        float mouseX = Input.GetAxis("Mouse X") * sens;
+        float mouseY = Input.GetAxis("Mouse Y") * sens;
 
-        Vector2 deltaRotation = deltaMouse * sens;
-        deltaRotation.y *= invertVertical ? 1.0f : -1.0f;
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);//clamp the vertical rotation
 
-        transform.Rotate(Vector3.right, deltaRotation.y);
-        transform.Rotate(Vector3.up, deltaRotation.x);
+        cam.localRotation = Quaternion.Euler(xRotation, 0f, 0f);//rotates cam not player
+        transform.Rotate(Vector3.up * mouseX);  
+    }
+
+    [SerializeField] private float jumpHeight;
+    private float gravity = 9.81f;
+
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundMask;
+    private float groundDistance = 1.4f;
+    private bool isGrounded;
+
+    Vector3 gravityVelocity;
+
+    public void manageGravity() 
+    {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);//check if we are grounded
+
+        if(isGrounded && gravityVelocity.y < 0)
+        {
+            gravityVelocity.y = -2f;
+        }
+
+        if(Input.GetButtonDown("Jump") && isGrounded)
+        {
+            gravityVelocity.y = Mathf.Sqrt(jumpHeight / (gravity * 2));
+        }
+
+        gravityVelocity.y -= gravity * Time.deltaTime;
+
+        controller.Move(gravityVelocity * Time.deltaTime);
+
     }
 }
