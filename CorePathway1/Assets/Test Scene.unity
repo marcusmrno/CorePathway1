@@ -291,10 +291,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6
   controller: {fileID: 410847186}
-  sens: 1
+  sens: 2000
   invertVertical: 0
   cam: {fileID: 340395020}
-  jumpHeight: 500
+  jumpHeight: 4
   groundCheck: {fileID: 1775434012}
   groundMask:
     serializedVersion: 2

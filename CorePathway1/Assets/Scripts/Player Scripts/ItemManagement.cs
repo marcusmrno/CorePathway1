@@ -24,14 +24,35 @@ public class ItemManagement : MonoBehaviour
         return inventory[index];
     }
 
-    private void manageItem(GameObject item)//manages pickup/droping of items
+    public void addItem(GameObject item)
+    {
+        inventory.Add(item);
+    }
+
+    public void removeItem(GameObject item)
+    {
+        inventory.Remove(item);
+    }
+
+    private void pickupItem(GameObject item)
     {
         if (Input.GetKeyDown("e"))
         {
-            inventory.Add(item);
+            
             heldIndex = inventory.Count;
-        }
+        } 
+    }
 
-        3
+    private void dropItem()
+    {
+        if (Input.GetKeyDown("q"))
+        {
+            removeItem(getItem(heldIndex));
+        }
+    }
+
+    private void manageInHands()//manages the position of the held item
+    {
+
     }
  }
