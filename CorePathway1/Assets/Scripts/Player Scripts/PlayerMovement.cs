@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    [SerializeField] private float sens = 2000;
+    [SerializeField] private float sens = 2;
     [SerializeField] private bool invertVertical;
     public Transform cam;
     private float xRotation;
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(Vector3.up * mouseX);  
     }
 
-    [SerializeField] private float jumpHeight;
+    [SerializeField] private float jumpHeight = 300;
     private float gravity = 9.81f;
 
     [SerializeField] private Transform groundCheck;

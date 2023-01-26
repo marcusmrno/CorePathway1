@@ -8,16 +8,17 @@ public class ItemManagement : MonoBehaviour
         -Inventory
         -collect items into inv
         -simple menus, hud only
-        -Wheel to select item
         -item shows up in hand, bottom right
         -throw items, based on holding down mouse 1?
     **/
 
     
     public GameObject grabBox;//hitbox for the area we can pick up items in
-    [HideInInspector]public List<GameObject> inventory = new List<GameObject>(); // will hold our items
     private Transform hand;//where items will be placed when held
+    [HideInInspector] public List<GameObject> inventory = new List<GameObject>(); // will hold our items
     private int heldIndex;//index in the inventory list of the current held item
+
+    [SerializeField] private GameObject hud;
 
     public GameObject getItem(int index)//return a gameobject from the invetory list using its index (slot - 1)
     {
@@ -38,7 +39,7 @@ public class ItemManagement : MonoBehaviour
     {
         if (Input.GetKeyDown("e"))
         {
-            
+            addItem(item);
             heldIndex = inventory.Count;
         } 
     }
@@ -51,8 +52,20 @@ public class ItemManagement : MonoBehaviour
         }
     }
 
-    private void manageInHands()//manages the position of the held item
+    public void Update()
     {
+        manageInHands();
+    }
+
+    private void manageInHands()//manages what item is held
+    {
+        for(int i=1; i<=inventory.Count; i++)
+        {
+            if (Input.GetKeyDown("" + i)){
+                heldIndex = i - 1;
+            }
+        }
+        getItem(heldIndex).transform.position = hand.position;
 
     }
  }
