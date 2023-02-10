@@ -16,7 +16,7 @@ public class ItemManagement : MonoBehaviour
     public GameObject grabBox;//hitbox for the area we can pick up items in
     private Transform hand;//where items will be placed when held
     [HideInInspector] public List<GameObject> inventory = new List<GameObject>(); // will hold our items
-    private int heldIndex;//index in the inventory list of the current held item
+    private int heldIndex = 0;//index in the inventory list of the current held item
 
     [SerializeField] private GameObject hud;
 
@@ -59,13 +59,14 @@ public class ItemManagement : MonoBehaviour
 
     private void manageInHands()//manages what item is held
     {
-        for(int i=1; i<=inventory.Count; i++)
+        for(int i=1; i<=5; i++)
         {
             if (Input.GetKeyDown("" + i)){
                 heldIndex = i - 1;
+                Debug.Log(heldIndex);
             }
         }
-        getItem(heldIndex).transform.position = hand.position;
-
+        //getItem(heldIndex).transform.position = hand.position;
+        hud.GetComponent<HudManager>().selectedSlot(heldIndex);
     }
  }
