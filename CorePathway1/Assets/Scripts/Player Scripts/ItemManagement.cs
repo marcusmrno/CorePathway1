@@ -59,7 +59,7 @@ public class ItemManagement : MonoBehaviour
 
     private void manageInHands()//manages what item is held
     {
-        for(int i=1; i<=5; i++)
+        for(int i=1; i<=7; i++)
         {
             if (Input.GetKeyDown("" + i)){
                 heldIndex = i - 1;

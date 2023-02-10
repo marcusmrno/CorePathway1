@@ -4,25 +4,23 @@ using UnityEngine;
 
 public class FrameScript : MonoBehaviour
 {
-    private bool isFront;
+    [SerializeField] private Renderer myModel;
+
+    Color color;
+    private void Start()
+    {
+        color = myModel.material.color;
+    }
 
     public void setFront()
     {
-        if (!isFront)
-        {
-            transform.position += new Vector3(0, 0.23f, 0);
-            isFront = true;
-        }
-           
+        color.a = 100f;
+        myModel.material.color = color;
     }
 
     public void setBack()
     {
-        if (isFront)
-        {
-            transform.position += new Vector3(0, -0.23f, 0);
-            isFront = false;
-        }
-        
+        color.a = 0f;
+        myModel.material.color = color;
     }
 }
