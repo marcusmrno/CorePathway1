@@ -10,7 +10,7 @@ public class FrameScript : MonoBehaviour
     {
         if (!isFront)
         {
-            transform.position += new Vector3(0, 0, -0.002f);
+            transform.position += new Vector3(0, 0.23f, 0);
             isFront = true;
         }
            
@@ -20,7 +20,7 @@ public class FrameScript : MonoBehaviour
     {
         if (isFront)
         {
-            transform.position += new Vector3(0, 0, 0.002f);
+            transform.position += new Vector3(0, -0.23f, 0);
             isFront = false;
         }
         
